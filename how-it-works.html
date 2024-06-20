@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Algorithm for Traffic Management</title>
+  <!-- css link -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- box icons -->
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+  />
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+  </header>
+  <!-- banner -->
+  <div class="banner">
+    <div class="banner-content">
+      <h1>How It Works</h1>
+      <p>
+        Explore how our model works and ho other user can utilize it and use it to its full potentcy.
+      </p>
+      <a href="#more"><button class="btn">Learn More</button></a>
+    </div>
+  </div>
+  <!-- Algorithm Explanation -->
+  <section id="more">
+    <div class="blog-header">
+      <h2 class="title">Code Explanation</h2>
+    </div>
+    <div class="algorithm-section">
+      <div class="algorithm-card">
+        <h3>Imports and Initial Setup</h3>
+        <code>
+          import numpy as np
+          import imutils
+          import time
+          import cv2
+          import os
+          import glob
+          import math
+          from sort import Sort
+        </code>
+        <p>
+          This section imports necessary packages for image processing, handling arrays, working with files, and object tracking (using SORT).
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Clearing the Output Directory</h3>
+        <code>
+          files = glob.glob('output/*.png')
+          for f in files:
+          os.remove(f)
+        </code>
+        <p>
+          This section clears the existing images in the output directory to ensure a fresh start for the new output files.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Tracker Initialization</h3>
+        <code>
+          tracker = Sort()
+          memory = {}
+          line1 = [(100, 400), (1000, 400)]
+          counter1 = 0
+          counter2 = 0
+        </code>
+        <p>
+          This initializes the SORT tracker, a memory dictionary for tracking objects, and sets up a line (line1) for counting objects that cross it. Two counters are also initialized.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Setting Paths and Parameters</h3>
+        <code>
+          input_path = 'input/input_video.mp4'
+          output_path = 'output/output_video.avi'
+          yolo_base_path = 'yolo-coco'
+          confidence_threshold = 0.35
+          nms_threshold = 0.25
+        </code>
+        <p>
+          This section sets the paths for the input video, output video, and YOLO model files. It also defines the confidence threshold and non-maximum suppression (NMS) threshold for YOLO.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Gamma Adjustment Function</h3>
+        <code>
+          def adjust_gamma(image, gamma=1.0):
+          invGamma = 1.0 / gamma
+          table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
+          return cv2.LUT(image, table)
+        </code>
+        <p>
+          This function adjusts the gamma of the input image to improve visibility, especially in low-light conditions.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Line Intersection Function</h3>
+        <code>
+          def intersect(A, B, C, D):
+          return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+          
+          def ccw(A, B, C):
+          return (C[1] - A[1]) * (B[0] - A[0]) > (B[1] - A[1]) * (C[0] - A[0])
+        </code>
+        <p>
+          These functions determine if two line segments intersect, used to check if tracked objects cross the counting line.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Loading YOLO Model</h3>
+        <code>
+          labelsPath = os.path.sep.join([yolo_base_path, "coco.names"])
+          LABELS = open(labelsPath).read().strip().split("\n")
+          np.random.seed(42)
+          COLORS = np.random.randint(0, 255, size=(200, 3), dtype="uint8")
+          weightsPath = os.path.sep.join([yolo_base_path, "yolov3.weights"])
+          configPath = os.path.sep.join([yolo_base_path, "yolov3.cfg"])
+          print("[INFO] loading YOLO from disk...")
+          net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
+          ln = net.getLayerNames()
+          ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
+        </code>
+        <p>
+          This section loads the YOLO model, class labels, and initializes colors for drawing bounding boxes.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Video Initialization</h3>
+        <code>
+          vs = cv2.VideoCapture(input_path)
+          writer = None
+          (W, H) = (None, None)
+          frameIndex = 0
+          
+          try:
+          prop = cv2.CAP_PROP_FRAME_COUNT
+          total = int(vs.get(prop))
+          print("[INFO] {} total frames in video".format(total))
+          except:
+          print("[INFO] could not determine # of frames in video")
+          print("[INFO] no approx. completion time can be provided")
+          total = -1
+        </code>
+        <p>
+          This initializes the video stream, sets up the output video writer, and gets the video frame dimensions. It also tries to determine the total number of frames in the video.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Processing Video Frames</h3>
+        <code>
+          while True:
+          (grabbed, frame) = vs.read()
+          if not grabbed:
+          break
+          
+          if W is None or H is None:
+          (H, W) = frame.shape[:2]
+          
+          frame = adjust_gamma(frame, gamma=1.5)
+          blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (256, 256), swapRB=True, crop=False)
+          net.setInput(blob)
+          start = time.time()
+          layerOutputs = net.forward(ln)
+          end = time.time()
+        </code>
+        <p>
+          This loop processes each frame of the video. It adjusts the gamma, prepares the frame for YOLO, and performs forward propagation to get detections.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>YOLO Detections</h3>
+        <code>
+          boxes = []
+          center = []
+          confidences = []
+          classIDs = []
+          
+          for output in layerOutputs:
+          for detection in output:
+          scores = detection[5:]
+          classID = np.argmax(scores)
+          confidence = scores[classID]
+          
+          if confidence > confidence_threshold:
+          box = detection[0:4] * np.array([W, H, W, H])
+          (centerX, centerY, width, height) = box.astype("int")
+          x = int(centerX - (width / 2))
+          y = int(centerY - (height / 2))
+          
+          center.append(int(centerY))
+          boxes.append([x, y, int(width), int(height)])
+          confidences.append(float(confidence))
+          classIDs.append(classID)
+          
+          idxs = cv2.dnn.NMSBoxes(boxes, confidences, confidence_threshold, nms_threshold)
+        </code>
+        <p>
+          This section processes the YOLO detections, extracts bounding boxes, and applies non-maximum suppression to filter overlapping boxes.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Tracking and Drawing</h3>
+        <code>
+          dets = []
+          if len(idxs) > 0:
+          for i in idxs.flatten():
+          (x, y) = (boxes[i][0], boxes[i][1])
+          (w, h) = (boxes[i][2], boxes[i][3])
+          dets.append([x, y, x + w, y + h, confidences[i]])
+          
+          dets = np.asarray(dets)
+          tracks = tracker.update(dets)
+          
+          boxes = []
+          indexIDs = []
+          c = []
+          
+          previous = memory.copy()
+          memory = {}
+          
+          for track in tracks:
+          boxes.append([track[0], track[1], track[2], track[3]])
+          indexIDs.append(int(track[4]))
+          memory[indexIDs[-1]] = boxes[-1]
+        </code>
+        <p>
+          This section updates the SORT tracker with the detections and prepares for drawing bounding boxes and tracking lines.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Drawing Bounding Boxes and Calculating Speed</h3>
+        <code>
+          if len(boxes) > 0:
+          i = int(0)
+          for box in boxes:
+          (x, y) = (int(box[0]), int(box[1]))
+          (w, h) = (int(box[2]), int(box[3]))
+          
+          color = [int(c) for c in COLORS[indexIDs[i] % len(COLORS)]]
+          cv2.rectangle(frame, (x, y), (w, h), color, 2)
+          
+          if indexIDs[i] in previous:
+          previous_box = previous[indexIDs[i]]
+          (x2, y2) = (int(previous_box[0]), int(previous_box[1]))
+          (w2, h2) = (int(previous_box[2]), int(previous_box[3]))
+          p0 = (int(x + (w - x) / 2), int(y + (h - y) / 2))
+          p1 = (int(x2 + (w2 - x2) / 2), int(y2 + (h2 - y2) / 2))
+          cv2.line(frame, p0, p1, color, 3)
+          
+          y_pix_dist = int(y + (h - y) / 2) - int(y2 + (h2 - y2) / 2)
+          x_pix_dist = int(x + (w - x) / 2) - int(x2 + (w2 - x2) / 2)
+          final_pix_dist = math.sqrt((y_pix_dist * y_pix_dist) + (x_pix_dist * x_pix_dist))
+          speed = np.round(1.5 * y_pix_dist, 2)
+          text_speed = "{} km/h".format(speed)
+          cv2.putText(frame, text_speed, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+          
+          if intersect(p0, p1, line1[0], line1[1]):
+          counter1 += 1
+          
+          i += 1
+          
+          cv2.line(frame, line1[0], line1[1], (0, 255, 255), 4)
+          
+          note_text = "NOTE: Vehicle speeds are calibrated only at yellow line. Speed of cars are more stable."
+          cv2.putText(frame, note_text, (20, 70), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 0, 255), 2)
+          counter_text = "counter:{}".format(counter1)
+          cv2.putText(frame, counter_text, (20, 150), cv2.FONT_HERSHEY_DUPLEX, 3.0, (0, 0, 255), 5)
+        </code>
+        <p>
+          This section draws bounding boxes around detected objects, draws tracking lines, calculates their speed, and checks if they intersect the counting line. It also updates the object counter.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Writing Output Video</h3>
+        <code>
+          if writer is None:
+          fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+          writer = cv2.VideoWriter(output_path, fourcc, 15, (frame.shape[1], frame.shape[0]), True)
+          
+          if total > 0:
+          elap = (end - start)
+          print("[INFO] single frame took {:.4f} seconds".format(elap))
+          print("[INFO] estimated total time to finish: {:.4f}".format(elap * total))
+          
+          writer.write(frame)
+          frameIndex += 1
+        </code>
+        <p>
+          This section initializes the video writer if it hasn't been set up yet, and writes the processed frame to the output video file.
+        </p>
+      </div>
+      
+      <div class="algorithm-card">
+        <h3>Cleanup</h3>
+        <code>
+          print("[INFO] cleaning up...")
+          writer.release()
+          vs.release()
+        </code>
+        <p>
+          Finally, this section releases the video writer and video stream resources to ensure everything is properly closed.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="comparison-section">
+    <div class="comparison-card">
+      <h3>Model Input vs Output Comparison</h3>
+      <div class="image-container">
+        <div>
+          <img src="img/io/input.png" alt="Input Screenshot">
+          <p>Input</p>
+        </div>
+        <div>
+          <img src="img/io/output.png" alt="Output Screenshot">
+          <p>Output</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="explanation-section">
+    <h1>Output Explanation and Improvements</h1>
+    <p>
+      The model's current output demonstrates effective vehicle detection but also highlights areas that require improvement:
+    </p>
+    <ul>
+      <li><strong>Sensitivity of Bounding Boxes:</strong> The model appears to be overly sensitive in detecting vehicles, sometimes resulting in bounding boxes that include partial or obscured parts of vehicles, such as headlights or other non-defining features.</li>
+      <li><strong>Issue Example:</strong> For instance, when only one headlamp of a car is visible due to obstruction by another vehicle, the model may misclassify the headlamp as a motorcycle or other object and place a bounding box around it, while missing the rest of the car.</li>
+      <li><strong>Improvement Strategy:</strong> To address this, consider refining the object detection algorithm to better distinguish between complete vehicles and partial, obscured parts. This may involve adjusting confidence thresholds, fine-tuning the model architecture, or implementing post-processing techniques to filter out spurious detections.</li>
+    </ul>
+    <p>
+      Continual refinement and testing with diverse scenarios can enhance the model's accuracy and robustness in vehicle detection tasks.
+    </p>
+  </section>    
+  <!-- Key Areas to Modify Based on Your Requirements -->
+  <section>
+    <div class="blog-header">
+      <h2 class="title">Key Areas to Modify Based on Your Requirements</h2>
+    </div>
+    <div class="algorithm-benefits">
+      <div class="benefit-card">
+        <h3>Detection/Tracking Methodology</h3>
+        <p>
+          If you want to switch from YOLOv3 to another detector or from SORT to another tracker, you would need to modify the code where these components are initialized and used (net, ln, tracker).
+        </p>
+      </div>
+      <div class="benefit-card">
+        <h3>Adjusting Detection/Tracking Parameters</h3>
+        <p>
+          Parameters such as confidence threshold (args["confidence"]) and non-maxima suppression threshold (args["threshold"]) can be adjusted based on your specific application and performance requirements.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <h3>Enhancing Speed Calculation</h3>
+        <p>
+          The current speed calculation (speed = np.round(1.5 * y_pix_dist, 2)) assumes a fixed conversion factor (1.5 km/h per pixel distance). You may want to refine this based on empirical data or additional sensor inputs.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <h3>Customizing Output Annotations</h3>
+        <p>
+          Annotations such as text overlays (cv2.putText) for counters, notes, and speed indicators can be customized in terms of position, font size, color, etc.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- footer -->
+  <footer>
+    <div>
+      <div class="footer-container">
+        <!-- left side -->
+        <div class="company-info">
+          <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+          <p>Building smarter cities with AI-driven traffic management solutions.</p>
+          <div class="socials">
+            <div><i class='bx bxl-linkedin'></i></div>
+            <div><i class='bx bxl-facebook-square'></i></div>
+            <div><i class='bx bxl-twitter'></i></div>
+          </div>
+        </div>
+        <!-- right side -->
+        <div class="web-pages">
+          <div>
+            <h3>Information</h3>
+            <a href="casestudy.html"><p>About</p></a>
+            <a href="algorithm.html"><p>Algorithm</p></a>
+            <a href="how-it-works.html"><p>How it work</p></a>
+          </div>
+          <div>
+            <h3>General</h3>
+            <a href="reference.html"><p>Reference</p></a>
+            <a href="https://pjreddie.com/yolo/"><p>Yolo</p></a>
+            <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/"><p>Sort</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- script tags -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
