@@ -1,137 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Algorithm for Traffic Management</title>
-    <!-- css link -->
-    <link rel="stylesheet" href="css/styles.css" />
-    <!-- box icons -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
-    />
-  </head>
-  <body>
-    <header>
-      <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
-    </header>
-
-    <!-- banner -->
-    <div class="banner">
-      <div class="banner-content">
-        <h1>The Algorithm Behind TrafficAI</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Algorithm for Traffic Management</title>
+  <!-- css link -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- box icons -->
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+  />
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+    <nav>
+      <ul class="navbar">
+        <li><a href="index.html">Blog</a></li>
+        <li><a href="acknowledgement.html">Acknowledgment</a></li>
+        <li><a href="reflection.html">Our Stories</a></li>
+        <li><a href="reference.html">Reference</a></li>
+      </ul>
+      <div><i class="bx bxs-car" id="menu-icon"></i><i class="bx bxs-car" id="menu-icon2"></i></div>
+    </nav>
+  </header>
+  
+  <!-- banner -->
+  <div class="banner">
+    <div class="banner-content">
+      <h1>The Algorithm Behind TrafficAI</h1>
+      <p>
+        Discover the advanced AI algorithm that powers our traffic management solution at UPM.
+      </p>
+      <a href="#more"><button class="btn">Learn More</button></a>
+    </div>
+  </div>
+  
+  <!-- Algorithm Explanation -->
+  <section id="more">
+    <div class="blog-header">
+      <h2 class="title">Understanding the AI Algorithm</h2>
+    </div>
+    
+    <div class="algorithm-section">
+      <div class="algorithm-card">
+        <img src="img/algo/overview.png" alt="Algorithm Overview" />
+        <h3>Overview</h3>
         <p>
-          Discover the advanced AI algorithm that powers our traffic management solution at UPM.
+          Our traffic management system uses a combination of YOLO (You Only Look Once) and SORT (Simple Online and Realtime Tracking) algorithms for real-time vehicle detection and tracking.
         </p>
-        <a href="#more"><button class="btn">Learn More</button></a>
+      </div>
+      
+      <div class="algorithm-card">
+        <img src="img/algo/yolo.png" alt="YOLO Algorithm" />
+        <h3>YOLO (You Only Look Once)</h3>
+        <p>
+          YOLO is a state-of-the-art, real-time object detection system. It divides the image into a grid and predicts bounding boxes and probabilities for each region. This allows it to detect multiple vehicles in a single frame efficiently.
+        </p>
+        <a href="https://pjreddie.com/yolo/" class="readme-btn">Read More</a>
+      </div>
+      
+      <div class="algorithm-card">
+        <img src="img/algo/sort.png" alt="SORT Algorithm" />
+        <h3>SORT (Simple Online and Realtime Tracking)</h3>
+        <p>
+          SORT is an efficient algorithm for tracking multiple objects in real-time. It uses the bounding boxes from YOLO to track the movement of vehicles across frames, providing a reliable count of vehicles.
+        </p>
+        <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/" class="readme-btn">Read More</a>
       </div>
     </div>
-
-    <!-- Algorithm Explanation -->
-    <section id="more">
-      <div class="blog-header">
-        <h2 class="title">Understanding the AI Algorithm</h2>
+  </section>
+  
+  <!-- Benefits of the Algorithm -->
+  <section>
+    <div class="blog-header">
+      <h2 class="title">Benefits of Our Algorithm</h2>
+    </div>
+    
+    <div class="algorithm-benefits">
+      <div class="benefit-card">
+        <h3>Accuracy</h3>
+        <p>
+          Our AI algorithm provides high accuracy in vehicle detection and counting, even in complex traffic scenarios.
+        </p>
       </div>
-
-      <div class="algorithm-section">
-        <div class="algorithm-card">
-          <img src="img/algo/overview.png" alt="Algorithm Overview" />
-          <h3>Overview</h3>
-          <p>
-            Our traffic management system uses a combination of YOLO (You Only Look Once) and SORT (Simple Online and Realtime Tracking) algorithms for real-time vehicle detection and tracking.
-          </p>
-        </div>
-
-        <div class="algorithm-card">
-          <img src="img/algo/yolo.png" alt="YOLO Algorithm" />
-          <h3>YOLO (You Only Look Once)</h3>
-          <p>
-            YOLO is a state-of-the-art, real-time object detection system. It divides the image into a grid and predicts bounding boxes and probabilities for each region. This allows it to detect multiple vehicles in a single frame efficiently.
-          </p>
-          <a href="https://pjreddie.com/yolo/" class="readme-btn">Read More</a>
-        </div>
-
-        <div class="algorithm-card">
-          <img src="img/algo/sort.png" alt="SORT Algorithm" />
-          <h3>SORT (Simple Online and Realtime Tracking)</h3>
-          <p>
-            SORT is an efficient algorithm for tracking multiple objects in real-time. It uses the bounding boxes from YOLO to track the movement of vehicles across frames, providing a reliable count of vehicles.
-          </p>
-          <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/" class="readme-btn">Read More</a>
-        </div>
+      <div class="benefit-card">
+        <h3>Real-Time Processing</h3>
+        <p>
+          The integration of YOLO and SORT ensures that our system can process video feeds in real-time, making it ideal for dynamic traffic environments.
+        </p>
       </div>
-    </section>
-
-    <!-- Benefits of the Algorithm -->
-    <section>
-      <div class="blog-header">
-        <h2 class="title">Benefits of Our Algorithm</h2>
+      <div class="benefit-card">
+        <h3>Scalability</h3>
+        <p>
+          Our solution is scalable and can be deployed across various intersections and roadways, providing a comprehensive traffic management system.
+        </p>
       </div>
-
-      <div class="algorithm-benefits">
-        <div class="benefit-card">
-          <h3>Accuracy</h3>
-          <p>
-            Our AI algorithm provides high accuracy in vehicle detection and counting, even in complex traffic scenarios.
-          </p>
-        </div>
-        <div class="benefit-card">
-          <h3>Real-Time Processing</h3>
-          <p>
-            The integration of YOLO and SORT ensures that our system can process video feeds in real-time, making it ideal for dynamic traffic environments.
-          </p>
-        </div>
-        <div class="benefit-card">
-          <h3>Scalability</h3>
-          <p>
-            Our solution is scalable and can be deployed across various intersections and roadways, providing a comprehensive traffic management system.
-          </p>
-        </div>
-        <div class="benefit-card">
-          <h3>Cost-Effective</h3>
-          <p>
-            By utilizing advanced AI algorithms, we reduce the need for expensive hardware and infrastructure, making our solution cost-effective.
-          </p>
-        </div>
+      <div class="benefit-card">
+        <h3>Cost-Effective</h3>
+        <p>
+          By utilizing advanced AI algorithms, we reduce the need for expensive hardware and infrastructure, making our solution cost-effective.
+        </p>
       </div>
-    </section>
-
-    <!-- footer -->
-    <footer>
-      <div>
-        <div class="footer-container">
-          <!-- left side -->
-          <div class="company-info">
-            <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
-            <p>Building smarter cities with AI-driven traffic management solutions.</p>
-            <div class="socials">
-              <div><i class='bx bxl-linkedin'></i></div>
-              <div><i class='bx bxl-facebook-square'></i></div>
-              <div><i class='bx bxl-twitter'></i></div>
-            </div>
+    </div>
+  </section>
+  
+  <!-- footer -->
+  <footer>
+    <div>
+      <div class="footer-container">
+        <!-- left side -->
+        <div class="company-info">
+          <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+          <p>Building smarter cities with AI-driven traffic management solutions.</p>
+          <div class="socials">
+            <div><i class='bx bxl-linkedin'></i></div>
+            <div><i class='bx bxl-facebook-square'></i></div>
+            <div><i class='bx bxl-twitter'></i></div>
           </div>
-          <!-- right side -->
-          <div class="web-pages">
-            <div>
-              <h3>Information</h3>
-              <a href="casestudy.html"><p>About</p></a>
-              <a href="algorithm.html"><p>Algorithm</p></a>
-              <a href="how-it-works.html"><p>How it work</p></a>
-            </div>
-            <div>
-              <h3>General</h3>
-              <a href="reference.html"><p>Reference</p></a>
-              <a href="https://pjreddie.com/yolo/"><p>Yolo</p></a>
-              <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/"><p>Sort</p></a>
-            </div>
+        </div>
+        <!-- right side -->
+        <div class="web-pages">
+          <div>
+            <h3>Information</h3>
+            <a href="casestudy.html"><p>About</p></a>
+            <a href="algorithm.html"><p>Algorithm</p></a>
+            <a href="how-it-works.html"><p>How it work</p></a>
+          </div>
+          <div>
+            <h3>General</h3>
+            <a href="reference.html"><p>Reference</p></a>
+            <a href="https://pjreddie.com/yolo/"><p>Yolo</p></a>
+            <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/"><p>Sort</p></a>
           </div>
         </div>
       </div>
-    </footer>
-
-    <!-- script tags -->
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="js/app.js"></script>
-  </body>
+    </div>
+  </footer>
+  
+  <!-- script tags -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="js/app.js"></script>
+</body>
 </html>

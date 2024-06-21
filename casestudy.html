@@ -1,177 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: Intelligent Vehicle Counting System</title>
-    <!-- css link -->
-    <link rel="stylesheet" href="css/styles.css" />
-    <!-- box icons -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
-    />
-  </head>
-  <body>
-    <header>
-      <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
-    </header>
-    <!-- banner -->
-    <div class="banner">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study: Intelligent Vehicle Counting System</title>
+  <!-- css link -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- box icons -->
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+  />
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+    <nav>
+      <ul class="navbar">
+        <li><a href="index.html">Blog</a></li>
+        <li><a href="acknowledgement.html">Acknowledgment</a></li>
+        <li><a href="reflection.html">Our Stories</a></li>
+        <li><a href="reference.html">Reference</a></li>
+      </ul>
+      <div><i class="bx bxs-car" id="menu-icon"></i><i class="bx bxs-car" id="menu-icon2"></i></div>
+    </nav>
+  </header>
+  <!-- banner -->
+  <div class="banner">
     <div class="banner-content">
-        <h1>Use Case</h1>
+      <h1>Case Study</h1>
+      <p>
+        The detailed explantion about our problem statement and how we wants to overcome it
+      </p>
+    </div>
+  </div>
+  
+  <!-- Case Study Explanation -->
+  <section>
+    <div class="blog-header">
+      <h1 class="title">Case Study: Intelligent Vehicle Counting System</h1>
+    </div>
+    
+    <div class="casestudy-section">
+      <div class="casestudy-card">
+        <h2>Introduction</h2>
         <p>
-            The detailed explantion about our problem statement and how we wants to overcome it
+          Congested traffic is a persistent issue, particularly in urban areas like those around Universiti Putra Malaysia (UPM). Accurate vehicle counting is essential for effective traffic management, which can alleviate congestion and improve traffic flow. Currently, UPM police officers need to manage traffic physically during peak hours, requiring constant attention and intervention. This manual approach is inefficient and labor-intensive, highlighting the need for an intelligent system to automate traffic management and allow police to focus on other critical tasks.
         </p>
+      </div>
+      
+      <div class="casestudy-card">
+        <h2>Proposed Solution</h2>
+        <p>
+          To address this issue, we propose a vehicle counting system using YOLO (You Only Look Once) for object detection and the SORT (Simple Online and Realtime Tracking) algorithm for tracking. This combination provides an effective and efficient solution for real-time vehicle counting in congested traffic.
+        </p>
+      </div>
     </div>
+  </section>
+  
+  <!-- Potential Solutions and Techniques -->
+  <section>
+    <div class="blog-header">
+      <h1 class="title">Potential Solutions and Techniques</h1>
     </div>
-
-    <!-- Case Study Explanation -->
-    <section>
-      <div class="blog-header">
-        <h1 class="title">Case Study: Intelligent Vehicle Counting System</h1>
+    
+    <div class="casestudy-section">
+      <div class="casestudy-card">
+        <h2>YOLO (You Only Look Once)</h2>
+        <p>YOLO is a state-of-the-art object detection algorithm that can identify and classify multiple objects in an image or video frame quickly and accurately.</p>
+        
+        <h4>How It Works</h4>
+        <ul>
+          <li><strong>Input:</strong> The system receives video feed from traffic cameras.</li>
+          <li><strong>Detection:</strong> YOLO processes each frame to detect vehicles.</li>
+          <li><strong>Classification:</strong> Vehicles are classified into categories (cars, trucks, motorcycles, etc.).</li>
+          <li><strong>Output:</strong> Each detected vehicle is marked with a bounding box and labeled.</li>
+        </ul>
+        
+        <h4>Advantages</h4>
+        <ul>
+          <li>High detection speed and accuracy.</li>
+          <li>Capable of detecting multiple vehicles in real-time.</li>
+          <li>Works well even in complex and congested scenes.</li>
+        </ul>
+        
+        <h4>Limitations</h4>
+        <ul>
+          <li>Requires substantial computational power for real-time processing.</li>
+          <li>Detection accuracy can be affected by lighting conditions and occlusions.</li>
+        </ul>
       </div>
-
-      <div class="casestudy-section">
-        <div class="casestudy-card">
-          <h2>Introduction</h2>
-          <p>
-            Congested traffic is a persistent issue, particularly in urban areas like those around Universiti Putra Malaysia (UPM). Accurate vehicle counting is essential for effective traffic management, which can alleviate congestion and improve traffic flow. Currently, UPM police officers need to manage traffic physically during peak hours, requiring constant attention and intervention. This manual approach is inefficient and labor-intensive, highlighting the need for an intelligent system to automate traffic management and allow police to focus on other critical tasks.
-          </p>
-        </div>
-
-        <div class="casestudy-card">
-          <h2>Proposed Solution</h2>
-          <p>
-            To address this issue, we propose a vehicle counting system using YOLO (You Only Look Once) for object detection and the SORT (Simple Online and Realtime Tracking) algorithm for tracking. This combination provides an effective and efficient solution for real-time vehicle counting in congested traffic.
-          </p>
-        </div>
+      
+      <div class="casestudy-card">
+        <h2>SORT (Simple Online and Realtime Tracking)</h2>
+        <p>SORT is an algorithm designed for real-time tracking of multiple objects. It is efficient and can maintain the identity of objects (vehicles in this case) across frames.</p>
+        
+        <h4>How It Works</h4>
+        <ul>
+          <li><strong>Input:</strong> The bounding boxes and classifications from YOLO.</li>
+          <li><strong>Tracking:</strong> SORT uses a combination of the Kalman filter and the Hungarian algorithm to predict the positions of vehicles and match detections to existing tracks.</li>
+          <li><strong>Output:</strong> Each vehicle is assigned a unique ID, and its movement is tracked across frames.</li>
+        </ul>
+        
+        <h4>Advantages</h4>
+        <ul>
+          <li>Efficient and suitable for real-time applications.</li>
+          <li>Handles occlusions and re-identifies vehicles as they move through the scene.</li>
+          <li>Simple implementation with high performance.</li>
+        </ul>
+        
+        <h4>Limitations</h4>
+        <ul>
+          <li>Performance can degrade in extremely dense traffic where many vehicles are overlapping.</li>
+          <li>Relies on the accuracy of initial detections from YOLO.</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- Potential Solutions and Techniques -->
-    <section>
-      <div class="blog-header">
-        <h1 class="title">Potential Solutions and Techniques</h1>
+    </div>
+  </section>
+  
+  <!-- Algorithm Suitability -->
+  <section>
+    <div class="blog-header">
+      <h1 class="title">Algorithm Suitability</h1>
+    </div>
+    
+    <div class="casestudy-section">
+      <div class="casestudy-card">
+        <h2>Why YOLO and SORT?</h2>
+        <p>The combination of YOLO and SORT offers a robust solution for real-time vehicle counting in congested traffic. Here is the step-by-step process:</p>
+        <ul>
+          <li><strong>Video Input:</strong> A live video feed from traffic cameras is captured.</li>
+          <li><strong>Vehicle Detection with YOLO:</strong> Each frame is processed by the YOLO algorithm to detect and classify vehicles.</li>
+          <li><strong>Vehicle Tracking with SORT:</strong> The bounding boxes and labels from YOLO are fed into the SORT algorithm, which assigns unique IDs and tracks vehicles across frames.</li>
+          <li><strong>Counting Vehicles:</strong> The system maintains a count of vehicles, updating as new vehicles enter the frame and existing vehicles exit.</li>
+        </ul>
+        
+        <h4>Benefits</h4>
+        <ul>
+          <li><strong>Accuracy:</strong> YOLO ensures high detection accuracy, while SORT maintains reliable tracking.</li>
+          <li><strong>Real-Time Processing:</strong> Both algorithms are designed for efficiency, making them suitable for real-time applications.</li>
+          <li><strong>Scalability:</strong> The system can handle multiple vehicles and is scalable for larger urban areas.</li>
+          <li><strong>Reduced Manual Intervention:</strong> By automating vehicle counting, the system reduces the need for UPM police to manage traffic manually, allowing them to focus on other critical tasks.</li>
+        </ul>
       </div>
-
-      <div class="casestudy-section">
-        <div class="casestudy-card">
-          <h2>YOLO (You Only Look Once)</h2>
-          <p>YOLO is a state-of-the-art object detection algorithm that can identify and classify multiple objects in an image or video frame quickly and accurately.</p>
-
-          <h4>How It Works</h4>
-          <ul>
-            <li><strong>Input:</strong> The system receives video feed from traffic cameras.</li>
-            <li><strong>Detection:</strong> YOLO processes each frame to detect vehicles.</li>
-            <li><strong>Classification:</strong> Vehicles are classified into categories (cars, trucks, motorcycles, etc.).</li>
-            <li><strong>Output:</strong> Each detected vehicle is marked with a bounding box and labeled.</li>
-          </ul>
-
-          <h4>Advantages</h4>
-          <ul>
-            <li>High detection speed and accuracy.</li>
-            <li>Capable of detecting multiple vehicles in real-time.</li>
-            <li>Works well even in complex and congested scenes.</li>
-          </ul>
-
-          <h4>Limitations</h4>
-          <ul>
-            <li>Requires substantial computational power for real-time processing.</li>
-            <li>Detection accuracy can be affected by lighting conditions and occlusions.</li>
-          </ul>
-        </div>
-
-        <div class="casestudy-card">
-          <h2>SORT (Simple Online and Realtime Tracking)</h2>
-          <p>SORT is an algorithm designed for real-time tracking of multiple objects. It is efficient and can maintain the identity of objects (vehicles in this case) across frames.</p>
-
-          <h4>How It Works</h4>
-          <ul>
-            <li><strong>Input:</strong> The bounding boxes and classifications from YOLO.</li>
-            <li><strong>Tracking:</strong> SORT uses a combination of the Kalman filter and the Hungarian algorithm to predict the positions of vehicles and match detections to existing tracks.</li>
-            <li><strong>Output:</strong> Each vehicle is assigned a unique ID, and its movement is tracked across frames.</li>
-          </ul>
-
-          <h4>Advantages</h4>
-          <ul>
-            <li>Efficient and suitable for real-time applications.</li>
-            <li>Handles occlusions and re-identifies vehicles as they move through the scene.</li>
-            <li>Simple implementation with high performance.</li>
-          </ul>
-
-          <h4>Limitations</h4>
-          <ul>
-            <li>Performance can degrade in extremely dense traffic where many vehicles are overlapping.</li>
-            <li>Relies on the accuracy of initial detections from YOLO.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Algorithm Suitability -->
-    <section>
-      <div class="blog-header">
-        <h1 class="title">Algorithm Suitability</h1>
-      </div>
-
-      <div class="casestudy-section">
-        <div class="casestudy-card">
-          <h2>Why YOLO and SORT?</h2>
-          <p>The combination of YOLO and SORT offers a robust solution for real-time vehicle counting in congested traffic. Here is the step-by-step process:</p>
-          <ul>
-            <li><strong>Video Input:</strong> A live video feed from traffic cameras is captured.</li>
-            <li><strong>Vehicle Detection with YOLO:</strong> Each frame is processed by the YOLO algorithm to detect and classify vehicles.</li>
-            <li><strong>Vehicle Tracking with SORT:</strong> The bounding boxes and labels from YOLO are fed into the SORT algorithm, which assigns unique IDs and tracks vehicles across frames.</li>
-            <li><strong>Counting Vehicles:</strong> The system maintains a count of vehicles, updating as new vehicles enter the frame and existing vehicles exit.</li>
-          </ul>
-
-          <h4>Benefits</h4>
-          <ul>
-            <li><strong>Accuracy:</strong> YOLO ensures high detection accuracy, while SORT maintains reliable tracking.</li>
-            <li><strong>Real-Time Processing:</strong> Both algorithms are designed for efficiency, making them suitable for real-time applications.</li>
-            <li><strong>Scalability:</strong> The system can handle multiple vehicles and is scalable for larger urban areas.</li>
-            <li><strong>Reduced Manual Intervention:</strong> By automating vehicle counting, the system reduces the need for UPM police to manage traffic manually, allowing them to focus on other critical tasks.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- footer -->
-    <footer>
-        <div>
-          <div class="footer-container">
-            <!-- left side -->
-            <div class="company-info">
-              <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
-              <p>Building smarter cities with AI-driven traffic management solutions.</p>
-              <div class="socials">
-                <div><i class='bx bxl-linkedin'></i></div>
-                <div><i class='bx bxl-facebook-square'></i></div>
-                <div><i class='bx bxl-twitter'></i></div>
-              </div>
-            </div>
-            <!-- right side -->
-            <div class="web-pages">
-              <div>
-                <h3>Information</h3>
-                <a href="casestudy.html"><p>About</p></a>
-                <a href="algorithm.html"><p>Algorithm</p></a>
-                <a href="how-it-works.html"><p>How it work</p></a>
-              </div>
-              <div>
-                <h3>General</h3>
-                <a href="reference.html"><p>Reference</p></a>
-                <a href="https://pjreddie.com/yolo/"><p>Yolo</p></a>
-                <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/"><p>Sort</p></a>
-              </div>
-            </div>
+    </div>
+  </section>
+  
+  <!-- footer -->
+  <footer>
+    <div>
+      <div class="footer-container">
+        <!-- left side -->
+        <div class="company-info">
+          <a href="index.html" class="logo">TrafficAI <sup><i class='bx bxs-car'></i></sup></a>
+          <p>Building smarter cities with AI-driven traffic management solutions.</p>
+          <div class="socials">
+            <div><i class='bx bxl-linkedin'></i></div>
+            <div><i class='bx bxl-facebook-square'></i></div>
+            <div><i class='bx bxl-twitter'></i></div>
           </div>
         </div>
-      </footer>
-
-    <!-- script tags -->
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="js/app.js"></script>
-  </body>
+        <!-- right side -->
+        <div class="web-pages">
+          <div>
+            <h3>Information</h3>
+            <a href="casestudy.html"><p>About</p></a>
+            <a href="algorithm.html"><p>Algorithm</p></a>
+            <a href="how-it-works.html"><p>How it work</p></a>
+          </div>
+          <div>
+            <h3>General</h3>
+            <a href="reference.html"><p>Reference</p></a>
+            <a href="https://pjreddie.com/yolo/"><p>Yolo</p></a>
+            <a href="https://www.luffca.com/2023/04/multiple-object-tracking-sort/"><p>Sort</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- script tags -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="js/app.js"></script>
+</body>
 </html>
